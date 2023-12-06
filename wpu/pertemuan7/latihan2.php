@@ -1,8 +1,9 @@
 <?php
 // cek apakah tidak ada data di $_GET
+// isset = apakah variable pernah dibuat atau belum
 if (
     !isset($_GET["nama"]) ||
-    !isset($_GET["nopung"])
+    !isset($_GET["nopung"]) // ketika belum dibuat
 ) {
     // redirect
     header("Location: ./latihan1.php");
