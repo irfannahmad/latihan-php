@@ -40,7 +40,7 @@ $pemain = query("SELECT * FROM pemainemyu");
                 <td><?= $row["nopung"]; ?></td>
                 <td><?= $row["posisi"]; ?></td>
                 <td><?= $row["negara"]; ?></td>
-                <td><a href="#">Edit</a></td>
+                <td><a href="./ubah.php?id=<?= $row["id"]; ?>">Edit</a></td>
                 <td><a href="./hapus.php?id=<?= $row["id"]; ?>" onclick="return confirm('Yakin akan menghapus?')">Hapus</a></td>
             </tr>
             <?php $i++; ?>
