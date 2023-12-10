@@ -1,15 +1,20 @@
 <?php
 require './functions.php';
 
-if (isset($_POST["register"])) {
-    if (registrasi($_POST) > 0) {
-        echo "
-        <script>
-            alert('User bari berhasil ditambahkan!');
-        </script>
-        ";
-    } else {
-        echo mysqli_error($conn);
+if (isset($_POST["login"])) {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+
+    // cek username
+    if (mysqli_num_rows($result) === 1) {
+        // cek password
+        $row = mysqli_fetch_assoc($result);
+        if (password_verify($password, $row["password"])) {
+            header("Location: ./index.php");
+            exit;
+        }
     }
 }
 
@@ -21,7 +26,7 @@ if (isset($_POST["register"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Registrasi</title>
+    <title>Halaman Login</title>
     <style>
         label {
             display: block;
@@ -30,7 +35,7 @@ if (isset($_POST["register"])) {
 </head>
 
 <body>
-    <h1>Halaman Registrasi</h1>
+    <h1>Halaman Login</h1>
 
     <form action="" method="post">
         <ul>
@@ -43,11 +48,7 @@ if (isset($_POST["register"])) {
                 <input type="password" name="password" id="password">
             </li>
             <li>
-                <label for="password2">konfirmasi password : </label>
-                <input type="password" name="password2" id="password2">
-            </li>
-            <li>
-                <button type="submit" name="register">Daftar</button>
+                <button type="submit" name="login">Login</button>
             </li>
         </ul>
     </form>

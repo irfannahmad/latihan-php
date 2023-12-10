@@ -39,24 +39,26 @@ function tambah($data)
 
 function upload()
 {
-    $namaFile = $_FILES["gambar"]["name"];
-    $ukuranFile = $_FILES["gambar"]["size"];
-    $error = $_FILES["gambar"]["error"];
-    $tmpName = $_FILES["gambar"]["tmp_name"];
+    // Mengambil informasi terkait file yang diunggah dari $_FILES superglobal
+    // ["name"], ["size"], ["error"], ["tmp_name"] bawaan dari php, dari $_FILES
+    $namaFile = $_FILES["gambar"]["name"]; // Nama asli dari file yang diunggah
+    $ukuranFile = $_FILES["gambar"]["size"]; // Ukuran file yang diunggah dalam bytes
+    $error = $_FILES["gambar"]["error"]; // Kode error, jika ada, yang terkait dengan proses pengunggahan
+    $tmpName = $_FILES["gambar"]["tmp_name"]; // Lokasi sementara file yang diunggah pada server
 
-    // cek apakah tidak ada gambar yang dipuload
+    // Cek apakah tidak ada gambar yang diupload (error code 4 menunjukkan tidak ada file yang diunggah)
     if ($error === 4) {
         echo "
         <script>
             alert('Pilih gambar terlebih dahulu');
         </script>";
-        return false;
+        return false; // Mengembalikan false karena tidak ada file yang diunggah
     }
 
-    // cek yang diupload adalah gambar
-    $ekstensiGambarValid = ["jpg", "jpeg", "png"];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    // Cek apakah yang diupload adalah gambar dengan memvalidasi ekstensi file
+    $ekstensiGambarValid = ["jpg", "jpeg", "png"]; // Ekstensi gambar yang diperbolehkan
+    $ekstensiGambar = explode('.', $namaFile); // Memisahkan nama file dengan ekstensi
+    $ekstensiGambar = strtolower(end($ekstensiGambar)); // Mengambil ekstensi dalam huruf kecil
     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
         echo "
         <script>
@@ -64,7 +66,7 @@ function upload()
         </script>";
     }
 
-    // cek jika ukurannya terlalu besar 
+    // Cek jika ukurannya terlalu besar (1 MB = 1000000 bytes)
     if ($ukuranFile > 1000000) {
         echo "
         <script>
@@ -72,16 +74,17 @@ function upload()
         </script>";
     }
 
-    // lolos pengecekan, gambar siap upload
-    // generate nama gambar baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiGambar;
+    // Generate nama baru untuk file gambar menggunakan uniqid() untuk menghindari nama yang sama
+    $namaFileBaru = uniqid(); // Membuat ID unik
+    $namaFileBaru .= '.'; // Menambahkan tanda '.' untuk ekstensi file
+    $namaFileBaru .= $ekstensiGambar; // Menambahkan ekstensi file ke nama baru
 
+    // Pindahkan file gambar dari lokasi sementara ke direktori yang ditentukan
     move_uploaded_file($tmpName, '../img/' . $namaFileBaru);
 
-    return $namaFileBaru;
+    return $namaFileBaru; // Mengembalikan nama file gambar baru untuk digunakan dalam fungsi tambah()
 }
+
 
 function hapus($id)
 {
