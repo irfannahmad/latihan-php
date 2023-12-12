@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+// cek cookie
+if (isset($_COOKIE["login"])) {
+    if ($_COOKIE["login"] == "true") {
+        $_SESSION["login"] = true;
+    }
+}
+
 if (isset($_SESSION["login"])) {
     header("Location: ./index.php");
 }
@@ -14,16 +21,23 @@ if (isset($_POST["login"])) {
     $result = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
 
     // cek username
-    if (mysqli_num_rows($result) === 1) { // Ini memeriksa jumlah baris yang dikembalikan oleh query. Jika ada satu baris yang cocok dengan nama pengguna yang dimasukkan, maka langkah selanjutnya dilakukan.
+    if (mysqli_num_rows($result) === 1) {
         // cek password
-        $row = mysqli_fetch_assoc($result); // Kode ini mengambil baris hasil query ke dalam bentuk array asosiatif.
+        $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
             // set session
             $_SESSION["login"] = true;
 
+            // cek remember me
+            if (isset($_POST["remember"])) {
+                // buat cookie
+
+                setcookie('login', 'true', time() + 60);
+            }
+
             header("Location: ./index.php");
             exit;
-        } // Ini memeriksa apakah password yang dimasukkan oleh pengguna cocok dengan password yang telah di-hash dalam database. Fungsi password_verify() membandingkan password yang dimasukkan dengan hash password yang ada dalam database. Jika cocok, pengguna akan diarahkan ke halaman index.php dengan menggunakan fungsi header().
+        }
     }
 }
 
@@ -55,6 +69,10 @@ if (isset($_POST["login"])) {
             <li>
                 <label for="password">password : </label>
                 <input type="password" name="password" id="password">
+            </li>
+            <li>
+                <input type="checkbox" name="remember" id="remember">
+                <label for="remember">remember me </label>
             </li>
             <li>
                 <button type="submit" name="login">Login</button>
