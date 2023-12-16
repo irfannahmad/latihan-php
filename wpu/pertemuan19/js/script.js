@@ -1,21 +1,21 @@
 // ambil elemen yang dibutuhkan
-var keyword = document.getElementById("keyword");
-var tombolCari = document.getElementById("tombol-cari");
-var container = document.getElementById("container");
+let keyword = document.getElementById("keyword");
+let tombolCari = document.getElementById("tombol-cari");
+let container = document.getElementById("container");
 
 // tambahkan event ketika keyword ditulis
 keyword.addEventListener("keyup", function () {
    // buat objek ajax
-   var xhr = new XMLHttpRequest();
+   let xhr = new XMLHttpRequest();
 
    // cek kesiapan ajax
    xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
-         console.log("ajax ok");
+         container.innerHTML = xhr.responseText;
       }
    };
 
    // eksekusi ajax
-   xhr.open("GET", "ajax/coba.txt", true);
+   xhr.open("GET", "ajax/pemain.php?keyword=" + keyword.value, true);
    xhr.send();
 });
