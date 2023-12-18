@@ -22,7 +22,7 @@ class Produk
     }
 }
 
-class cetakInfoProduk
+class CetakInfoProduk
 {
     public function cetak(Produk $produk)
     {
@@ -41,5 +41,5 @@ echo "<br>";
 echo "Game : " . $produk2->getLabel();
 echo "<br>";
 
-$infoProduk1 = new cetakInfoProduk();
+$infoProduk1 = new CetakInfoProduk();
 echo $infoProduk1->cetak($produk2);

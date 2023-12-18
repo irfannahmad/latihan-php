@@ -5,7 +5,7 @@ class Coba
 }
 
 // object
-$a = new Coba();
+$a = new Coba(); // instance / instansiasi
 $b = new Coba();
 $c = new Coba();
 

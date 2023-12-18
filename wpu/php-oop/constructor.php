@@ -7,8 +7,11 @@ class Produk
     public $penerbit;
     public $harga;
 
+    // method (__construct) otomatis dijalankan ketika class di instance / dibuat object
+    // variable didalam method dibawah ini adalah variable lokal
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0)
     {
+        // $this mengambil dari property yang diisi oleh variable lokal pada method __construct
         $this->judul = $judul;
         $this->penulis = $penulis;
         $this->penerbit = $penerbit;

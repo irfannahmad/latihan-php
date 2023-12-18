@@ -9,6 +9,7 @@ class Produk
 
     public function getLabel()
     {
+        // ($this) mengambil isi dari property diatas
         return "$this->penulis, $this->penerbit";
     }
 }
